@@ -1,0 +1,14 @@
+{
+  "name": "Dependencies-Test",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "webpack --config webpack.config.vendor.js",
+    "postdev": "webpack"
+  },
+  "dependencies": {
+    "webpack-merge": "4.1.0",
+    "docker-hub-api": "0.5.1",
+    "axe-core": "4.3.5"
+  }
+}
