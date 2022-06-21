@@ -23,7 +23,7 @@ jobs:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          TRIGGERED_BY: 'PR'
+          TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
       - name: build docker
         run: docker build -t dvga .
