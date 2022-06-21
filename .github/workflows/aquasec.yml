@@ -30,7 +30,7 @@ jobs:
     name: Build Docker
     steps:
     - name: Docker Build
-      run: docker build -t dvga .
+      run: docker build .
     - name: Manifest Generation
       run: |
         curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
