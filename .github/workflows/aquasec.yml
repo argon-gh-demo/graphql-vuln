@@ -25,21 +25,12 @@ jobs:
           TRIVY_RUN_AS_PLUGIN: 'aqua'
           TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
-  build:
-    runs-on: ubuntu-latest
-    name: Build Docker
-    steps:
-    - name: Docker Build
-      run: docker build .
-    - name: Manifest Generation
-      run: |
-        curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
-        billy generate \
-            --access-token "${{ secrets.GITHUB_TOKEN }}" \
-           --aqua-key "${{ secrets.AQUA_KEY }}" \
-           --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-
-           # The docker image name:tag of the newly built image
-            --artifact-path .
-  
-  
+      - name: Docker Build
+        run: docker build .
+      - name: Manifest Generation
+        run: |
+          curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
+          billy generate \
+              --access-token "${{ secrets.GITHUB_TOKEN }}" \
+             --aqua-key "${{ secrets.AQUA_KEY }}" \
+             --aqua-secret "${{ secrets.AQUA_SECRET }}" 
