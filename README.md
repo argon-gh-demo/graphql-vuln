@@ -1,5 +1,5 @@
-# Damn Vulnerable GraphQL Application
-Damn Vulnerable GraphQL Application is an intentionally vulnerable implementation of Facebook's GraphQL technology, to learn and practice GraphQL Security.
+# Darn Vulnerable GraphQL Application
+Darn Vulnerable GraphQL Application is an intentionally vulnerable implementation of Facebook's GraphQL technology, to learn and practice GraphQL Security.
 
 
 <p align="center">
@@ -23,7 +23,7 @@ Damn Vulnerable GraphQL Application is an intentionally vulnerable implementatio
 * [License](#license)
 
 # About DVGA
-Damn Vulnerable GraphQL is a deliberately weak and insecure implementation of GraphQL that provides a safe environment to attack a GraphQL application, allowing developers and IT professionals to test for vulnerabilities.
+Darn Vulnerable GraphQL is a deliberately weak and insecure implementation of GraphQL that provides a safe environment to attack a GraphQL application, allowing developers and IT professionals to test for vulnerabilities.
 
 ## DVGA Operation Support
 - Queries
@@ -84,7 +84,8 @@ See [requirements.txt](requirements.txt) for dependencies.
 
 ## Docker
 ### Clone the repository
-`git clone git@github.com:dolevf/Damn-Vulnerable-GraphQL-Application.git && cd Damn-Vulnerable-GraphQL-Application`
+`git clone git@github.com:dolevf/
+-Vulnerable-GraphQL-Application.git && cd Damn-Vulnerable-GraphQL-Application`
 
 ### Build the Docker image
 `docker build -t dvga .`
