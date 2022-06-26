@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: saargondocker/publicrepo:latest
+          tags: saargondocker/graphql-vuln:latest
           
       - name: Manifest Generation
         run: |
@@ -43,4 +43,4 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
              --aqua-key "${{ secrets.AQUA_KEY }}" \
              --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-             --artifact-path "saargondocker/publicrepo:latest"
+             --artifact-path "saargondocker/graphql-vuln:latest"
