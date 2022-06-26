@@ -42,4 +42,4 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
              --aqua-key "${{ secrets.AQUA_KEY }}" \
              --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-             --artifact-path .
+             --artifact-path "${{ env.GITHUB_WORKSPACE }}"
