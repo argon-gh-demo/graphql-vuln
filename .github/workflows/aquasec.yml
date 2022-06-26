@@ -26,7 +26,9 @@ jobs:
           TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
       - name: Docker Build
-        run: docker build . -f Dockerfile 
+        uses: addnab/docker-run-action@v3
+        with: 
+          run: docker build . -f Dockerfile 
       - name: Manifest Generation
         run: |
           curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
