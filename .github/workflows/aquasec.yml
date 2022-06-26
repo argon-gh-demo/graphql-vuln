@@ -11,7 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run Trivy vulnerability scanner in IaC mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -25,10 +29,12 @@ jobs:
           TRIVY_RUN_AS_PLUGIN: 'aqua'
           TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Docker Build
-        uses: addnab/docker-run-action@v3
-        with: 
-          run: docker build . -f Dockerfile 
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: saargondocker/publicrepo:${{ env.gitversion }}
+          
       - name: Manifest Generation
         run: |
           curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
