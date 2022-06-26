@@ -41,4 +41,5 @@ jobs:
           billy generate \
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
              --aqua-key "${{ secrets.AQUA_KEY }}" \
-             --aqua-secret "${{ secrets.AQUA_SECRET }}" 
+             --aqua-secret "${{ secrets.AQUA_SECRET }}" \
+             --artifact-path .
