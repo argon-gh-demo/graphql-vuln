@@ -37,6 +37,7 @@ jobs:
           
       - name: Manifest Generation
         run: |
+          docker image ls
           curl -L ${{ secrets.BILLY_URL }}/v1/api/download/sh | sh
           billy generate \
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
