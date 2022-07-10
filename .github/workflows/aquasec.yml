@@ -32,7 +32,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: saargondocker/graphql-vuln:latest
+          tags: saargondocker/graphql-vuln:"${{ github.sha }}"
       - name: Run Trivy vulnerability scanner - Image mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -54,4 +54,4 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
              --aqua-key "${{ secrets.AQUA_KEY }}" \
              --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-             --artifact-path "saargondocker/graphql-vuln:latest"
+             --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}"
