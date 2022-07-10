@@ -15,7 +15,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run Trivy vulnerability scanner in IaC mode
+      - name: Run Trivy vulnerability scanner - FS mode
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -33,6 +33,19 @@ jobs:
         with:
           push: true
           tags: saargondocker/graphql-vuln:latest
+      - name: Run Trivy vulnerability scanner - Image mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          security-checks: 'vuln,config,secret'
+          hide-progress: false
+          format: 'table'
+        env:
+          AQUA_KEY: ${{ secrets.AQUA_KEY }}
+          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
+          TRIGGERED_BY: 'PUSH'
+          GITHUB_TOKEN: ${{ github.token }}
           
       - name: Manifest Generation
         run: |
