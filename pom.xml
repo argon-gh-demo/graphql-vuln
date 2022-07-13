@@ -79,7 +79,14 @@
 	</build>
 	<dependencies>
 
-		<!-- Spring MVC -->
+		<dependency>
+		<groupId>com.sun.xml.ws</groupId>
+		<artifactId>jaxws-rt</artifactId>
+		<version>${jaxws-rt.version}</version>
+		<type>pom</type>
+		</dependency>
+				<!-- Spring MVC -->
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
