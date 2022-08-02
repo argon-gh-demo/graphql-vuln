@@ -60,9 +60,7 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-
-              # The docker image name:tag of the newly built image
-              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" \
+              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" 
      # - name: Manifest Generation
      #   run: |
      #     docker image ls
