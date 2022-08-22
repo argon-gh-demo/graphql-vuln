@@ -15,8 +15,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Checkmarx CxFlow Action
-        uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.5
+    #  - name: Checkmarx CxFlow Action
+    #    uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.5
       - name: Run Trivy vulnerability scanner - FS mode
         uses: aquasecurity/trivy-action@master
         with:
