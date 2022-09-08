@@ -15,9 +15,9 @@ jobs:
           security-checks: 'vuln,config,secret'
           hide-progress: false
           format: 'table'
+          severities: 'HIGH'
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          TRIGGERED_BY: 'PR'
           GITHUB_TOKEN: ${{ github.token }}       
