@@ -30,10 +30,14 @@ workflows:
       - build:
           filters:
             branches:
-              only: master, circleci-project-setup
+              only: 
+                - master 
+                - circleci-project-setup
       - publish-latest:
           requires:
             - build
           filters:
             branches:
-              only: master, circleci-project-setup
+              only: 
+                - master 
+                - circleci-project-setup
