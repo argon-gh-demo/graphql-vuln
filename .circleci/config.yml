@@ -14,6 +14,8 @@ jobs:
   publish-latest:
     environment:
       IMAGE_NAME: building-on-ci
+      DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
+      DOCKERHUB_PASS: $DOCKERHUB_PASS
     docker:
       - image: saargondocker/graphql-circleci
     steps:
