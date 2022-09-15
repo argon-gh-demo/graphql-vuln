@@ -3,21 +3,30 @@ jobs:
   build:
     environment:
       IMAGE_NAME: graphql-circleci
+      AQUA_KEY: $AQUA_KEY
+      AQUA_SECRET: $AQUA_SECRET
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
       - setup_remote_docker
       - run:
+          name: Aqua Scan
+          command:  |
+                    export AQUA_KEY=$AQUA_KEY
+                    export AQUA_SECRET=$AQUA_SECRET
+                    export trivyVersion=0.31.2
+                    export TRIVY_RUN_AS_PLUGIN=aqua
+                    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b . v${trivyVersion}
+                    ./trivy fs --security-checks config,vuln,secret .
+      - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
   publish-latest:
     environment:
-      IMAGE_NAME: building-on-ci
+      IMAGE_NAME: graphql-circleci
       DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
       DOCKERHUB_PASS: $DOCKERHUB_PASS
-    docker:
-      - image: saargondocker/graphql-circleci
     steps:
       - setup_remote_docker
       - run:
