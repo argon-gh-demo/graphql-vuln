@@ -22,7 +22,10 @@ jobs:
           command: docker build -t $IMAGE_NAME:latest .
   publish-latest:
     docker:
-      - image: ubuntu-latest
+      ֿ- image: ubuntu-latest
+      auth:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASS
     environment:
       IMAGE_NAME: graphql-circleci
     steps:
@@ -30,7 +33,6 @@ jobs:
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
-            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS"
             docker push $IMAGE_NAME:latest
 workflows:
   version: 2
