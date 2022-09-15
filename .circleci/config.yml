@@ -3,8 +3,6 @@ jobs:
   build:
     environment:
       IMAGE_NAME: graphql-circleci
-      AQUA_KEY: $AQUA_KEY
-      AQUA_SECRET: $AQUA_SECRET
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -25,8 +23,6 @@ jobs:
   publish-latest:
     environment:
       IMAGE_NAME: graphql-circleci
-      DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME
-      DOCKERHUB_PASS: $DOCKERHUB_PASS
     steps:
       - setup_remote_docker
       - run:
