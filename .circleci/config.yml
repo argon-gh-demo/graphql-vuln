@@ -5,6 +5,9 @@ jobs:
       IMAGE_NAME: graphql-circleci
     docker:
       - image: circleci/buildpack-deps:stretch
+        auth:
+            username: $DOCKERHUB_USERNAME
+            password: $DOCKERHUB_PASS
     steps:
       - checkout
       - setup_remote_docker
@@ -20,33 +23,17 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
-  publish-latest:
-    docker:
-      ֿ- image: ubuntu-latest
-      auth:
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_PASS
-    environment:
-      IMAGE_NAME: graphql-circleci
-    steps:
-      - setup_remote_docker
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             docker push $IMAGE_NAME:latest
+
+  
 workflows:
   version: 2
   build-master:
     jobs:
       - build:
-          filters:
-            branches:
-              only: 
-                - master 
-                - circleci-project-setup
-      - publish-latest:
-          requires:
-            - build
           filters:
             branches:
               only: 
