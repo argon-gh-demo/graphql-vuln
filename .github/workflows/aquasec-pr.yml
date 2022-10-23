@@ -20,4 +20,5 @@ jobs:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          GITHUB_TOKEN: ${{ github.token }}       
+          GITHUB_TOKEN: ${{ github.token }}
+          PACKAGE_JSON: "1"
