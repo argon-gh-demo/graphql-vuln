@@ -9,7 +9,10 @@ ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
 RUN apk add --update curl 
-RUN apk add --update python
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
 
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt
