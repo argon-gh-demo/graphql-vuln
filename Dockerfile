@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM alpine:2.12
 
 LABEL description="Damn Vulnerable GraphQL Application"
 LABEL github="https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application"
@@ -8,7 +8,7 @@ LABEL maintainers="Dolev Farhi & Connor McKinnon"
 ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
-RUN apk add --update curl
+RUN apk add --update curl && apk add --update python3
 
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt
