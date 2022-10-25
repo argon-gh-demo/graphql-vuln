@@ -8,7 +8,7 @@ LABEL maintainers="Dolev Farhi & Connor McKinnon"
 ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
-RUN apk add --update curl && apk add --update python3
+RUN apk add --update curl && apk add --update python && apk add --update pip
 
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt
