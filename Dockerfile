@@ -1,4 +1,4 @@
-FROM alpine:2.12
+FROM alpine:2.6.10
 
 LABEL description="Damn Vulnerable GraphQL Application"
 LABEL github="https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application"
