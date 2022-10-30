@@ -4,28 +4,14 @@ kind: pipeline
 type: docker
 
 steps:
-- name: backend
-  image: golang
-  commands:
-    - go get
-    - go build
-    - go test
-
-- name: frontend
-  image: node:6
-  commands:
-    - npm install
-    - npm test
-
-- name: publish
-  image: plugins/docker
-  settings:
-    repo: octocat/hello-world
-    tags: [ 1, 1.1, latest ]
-    registry: index.docker.io
-
-- name: notify
-  image: plugins/slack
-  settings:
-    channel: developers
-    username: drone
+- name: Run Trivy vulnerability scanner - FS mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          security-checks: 'vuln,config,secret'
+          hide-progress: false
+          format: 'table'
+        env:
+          AQUA_KEY: ${{ secrets.AQUA_KEY }}
+          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
