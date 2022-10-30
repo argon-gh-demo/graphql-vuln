@@ -5,14 +5,14 @@ kind: pipeline
 type: docker
 
 steps:
-- name: Run Trivy vulnerability scanner - FS mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          security-checks: 'vuln,config,secret'
-          hide-progress: false
-          format: 'table'
-        env:
-          AQUA_KEY: ${{ secrets.AQUA_KEY }}
-          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'
+        - name: Run Trivy vulnerability scanner - FS mode
+                uses: aquasecurity/trivy-action@master
+                with:
+                  scan-type: 'fs'
+                  security-checks: 'vuln,config,secret'
+                  hide-progress: false
+                  format: 'table'
+                env:
+                  AQUA_KEY: ${{ secrets.AQUA_KEY }}
+                  AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+                  TRIVY_RUN_AS_PLUGIN: 'aqua'
