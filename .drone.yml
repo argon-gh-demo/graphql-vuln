@@ -15,9 +15,13 @@ steps:
 - name: test docker
   environment:
     PASSWORD:
-      from_secret: SCAN_PASS
+      from_secret: AQUA_DEMO_PASS
     USERNAME:
-      from_secret: SCAN_USER
+      from_secret: AQUA_DEMO_USER
   commands:
   - docker images
   - docker pull zookeeper:latest
+  - docker pull hello-world
+  - docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2022.4 \ 
+    scan --no-verify -H http://aquasec-demo3581-vm0.eastus.cloudapp.azure.com/ -U $USERNAME -P $PASSWORD --local hello-world:latest
+
