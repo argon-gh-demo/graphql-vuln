@@ -22,11 +22,14 @@ steps:
       from_secret: DH_DEMO_PASS
     DH_USERNAME:
       from_secret: DH_DEMO_USER
+    AQUA_TOKEN:
+      from_secret: AQUA_TOKEN
+    AQUA_SERVER:
+      from_secret: AQUA_SERVER
       
   commands:
   - docker login -u $DH_USERNAME -p $DH_PASSWORD
   - docker images
   - docker pull zookeeper:latest
   - docker pull hello-world
-  - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2022.4 scan --no-verify -H http://aquasec-demo3581-vm0.eastus.cloudapp.azure.com/ -U $USERNAME -P $PASSWORD --local hello-world:latest
-
+  - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG  registry.aquasec.com/scanner-cli:2210.13.7 daemon --token $AQUA_TOKEN --host AQUA_SERVER
