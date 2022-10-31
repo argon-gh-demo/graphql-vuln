@@ -4,7 +4,7 @@ name: default
 
 steps:
 - name: test
-  image: alpine
+  image: docker:dind
   commands:
   - echo hello hello
   - echo world
