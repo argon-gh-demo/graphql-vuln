@@ -18,7 +18,12 @@ steps:
       from_secret: AQUA_DEMO_PASS
     USERNAME:
       from_secret: AQUA_DEMO_USER
+    DH_PASSWORD:
+      from_secret: DH_DEMO_PASS
+    DH_USERNAME:
+      from_secret: DH_DEMO_USER
   commands:
+  - docker login -u DH_USERNAME -p DH_PASSWORD
   - docker images
   - docker pull zookeeper:latest
   - docker pull hello-world
