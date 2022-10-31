@@ -28,6 +28,6 @@ steps:
   - docker images
   - docker pull zookeeper:latest
   - docker pull hello-world
-  - docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2022.4 \ 
+  - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2022.4 \ 
     scan --no-verify -H http://aquasec-demo3581-vm0.eastus.cloudapp.azure.com/ -U $USERNAME -P $PASSWORD --local hello-world:latest
 
