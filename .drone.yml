@@ -26,10 +26,15 @@ steps:
       from_secret: AQUA_TOKEN
     AQUA_SERVER:
       from_secret: AQUA_SERVER
+    AQUA_REG_USER:
+      from_secret: AQUA_REG_USER
+    AQUA_REG_PASS:
+      from_secret: AQUA_REG_PASS
       
   commands:
   - docker login -u $DH_USERNAME -p $DH_PASSWORD
   - docker images
   - docker pull zookeeper:latest
   - docker pull hello-world
+  - docker login registry.aquasec.com -u $AQUA_REG_USER -p $AQUA_REG_PASS
   - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG  registry.aquasec.com/scanner:2210.13.7 daemon --token $AQUA_TOKEN --host $AQUA_SERVER --local zookeeper:latest
