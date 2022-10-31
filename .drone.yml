@@ -8,3 +8,4 @@ steps:
   commands:
   - echo hello hello
   - echo world
+  - docker run hello-world
