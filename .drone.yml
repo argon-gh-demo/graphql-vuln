@@ -14,5 +14,6 @@ steps:
   - echo hello world 2
 - name: test docker
   commands:
-  - docker run hello-world
+  - docker pull zookeeper
+  - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG  registry.aquasec.com/scanner-cli:2210.13.7 daemon --token 3b2bf3c4144c0b971c58b887b0bb285e7d648373 --host https://8f9482d77b.cloud.aquasec.com/
 ...
