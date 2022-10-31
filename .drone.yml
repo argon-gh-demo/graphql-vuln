@@ -34,6 +34,7 @@ steps:
   commands:
   - docker login -u $DH_USERNAME -p $DH_PASSWORD
   - docker build -t graphql-image:$DRONE_COMMIT_SHA .
+  - docker push graphql-image:$DRONE_COMMIT_SHA
   - docker login registry.aquasec.com -u $AQUA_REG_USER -p $AQUA_REG_PASS
   - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG registry.aquasec.com/scanner:2210.13.7 scan --token $AQUA_TOKEN --host $AQUA_SERVER --local graphql-image:$DRONE_COMMIT_SHA
   - docker images
