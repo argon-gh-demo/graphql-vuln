@@ -19,5 +19,5 @@ steps:
     USERNAME:
       from_secret: SCAN_USER
   commands:
-  - docker ls -a
+  - docker images
   - docker pull zookeeper:latest
