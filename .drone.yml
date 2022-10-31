@@ -32,4 +32,4 @@ steps:
   - docker images
   - docker pull zookeeper:latest
   - docker pull hello-world
-  - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG  registry.aquasec.com/scanner-cli:2210.13.7 daemon --token $AQUA_TOKEN --host $AQUA_SERVER --local zookeeper:latest
+  - docker run -d -e SCALOCK_LOG_LEVEL=DEBUG  registry.aquasec.com/scanner:2210.13.7 daemon --token $AQUA_TOKEN --host $AQUA_SERVER --local zookeeper:latest
