@@ -27,7 +27,6 @@ resource "kubernetes_ingress" "example_ingress" {
     }
     tls {
       secret_name = "tls-secret"
-      aws_access_key_id="AKIAIO5FODNN7EXAMPLE"
     }
   }
 }
