@@ -15,7 +15,7 @@ jobs:
           security-checks: 'vuln,config,secret'
           hide-progress: false
           format: 'table'
-          severity: 'MEDIUM,HIGH,CRITICAL'
+          severity: 'HIGH,CRITICAL'
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
