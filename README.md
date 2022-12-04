@@ -1,4 +1,5 @@
 # Darn Vulnerable GraphQL Application
+
 Darn Vulnerable GraphQL Application is an intentionally vulnerable implementation of Facebook's GraphQL technology, to learn and practice GraphQL Security.
 
 
