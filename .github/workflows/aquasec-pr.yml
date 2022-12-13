@@ -16,6 +16,7 @@ jobs:
           hide-progress: false
           format: 'table'
           severity: 'MEDIUM,HIGH,CRITICAL'
+          skip-files: '*.map'
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
