@@ -39,7 +39,7 @@ jobs:
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
-      - name: Run Trivy vulnerability scanner - Image mode
+      - name: Aqua scanner - Image mode
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "saargondocker/graphql-vuln:${{ github.sha }}"
