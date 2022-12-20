@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run Trivy vulnerability scanner in IaC mode
+      - name: Aqua scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
