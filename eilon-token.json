@@ -1,6 +1,6 @@
 {
-  "tokenUrl": "https://thisisnotasecret.com/password123",
-  "tokenUrl": "http://thisisnotasecret.com/",
-  "tokenURL": "https://github.com/argon-gh-demo/graphql-vuln/pull/31",
-  "passwordURL":"https://notmypass.com/"
+  "tokenUrl": "https://thisisnotasecret.com/password123s",
+  "tokenUrl": "http://thisisnotasecret.com/s",
+  "tokenURL": "https://github.com/argon-gh-demo/graphql-vuln/pull/32",
+  "passwordURL":"https://notmypass.com/s"
 }
