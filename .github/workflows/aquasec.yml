@@ -39,19 +39,6 @@ jobs:
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
-      - name: Aqua scanner - Image mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "saargondocker/graphql-vuln:${{ github.sha }}"
-          scan-type: 'image'
-          security-checks: 'vuln,config,secret'
-          hide-progress: false
-          format: 'table'
-        env:
-          AQUA_KEY: ${{ secrets.AQUA_KEY }}
-          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'
-          GITHUB_TOKEN: ${{ github.token }}
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
