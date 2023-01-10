@@ -29,7 +29,7 @@ jobs:
           TRIVY_RUN_AS_PLUGIN: 'aqua'
           TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
-          debug: true
+          TRIVY_DEBUG: 'true'
  #     - name: Upload SARIF file
  #       uses: github/codeql-action/upload-sarif@v1
  #       with:
