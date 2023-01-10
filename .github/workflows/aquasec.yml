@@ -23,13 +23,13 @@ jobs:
           scan-type: 'fs'
           security-checks: 'vuln,config,secret'
           hide-progress: false
-          debug: true
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
           TRIGGERED_BY: 'PUSH'
           GITHUB_TOKEN: ${{ github.token }}
+          debug: true
  #     - name: Upload SARIF file
  #       uses: github/codeql-action/upload-sarif@v1
  #       with:
