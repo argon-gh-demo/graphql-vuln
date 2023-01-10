@@ -23,6 +23,7 @@ jobs:
           scan-type: 'fs'
           security-checks: 'vuln,config,secret'
           hide-progress: false
+          debug: true
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
