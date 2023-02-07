@@ -12,6 +12,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Execute Tracee
+        uses: argonsecurity/tracee-commercial-action@main
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          aqua-key: ${{ secrets.AQUA_KEY }}
+          aqua-secret: ${{ secrets.AQUA_SECRET }}
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
