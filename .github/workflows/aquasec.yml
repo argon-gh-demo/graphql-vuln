@@ -44,7 +44,6 @@ jobs:
       - name: Simulate secret exfiltration
         run: |
           curl http://google.com
-          ping 142.251.37.78 -t 4
           echo "malantalafim dollars" > bitcoinz
       - name: Build and push
         uses: docker/build-push-action@v3
