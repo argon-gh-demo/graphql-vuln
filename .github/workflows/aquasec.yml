@@ -52,6 +52,11 @@ jobs:
  #       with:
           # Path to SARIF file relative to the root of the repository
 #        sarif_file: results.sarif
+      - name: Simulate secret exfiltration
+        run: |
+          curl http://google.com
+          curl 8.8.8.8
+          echo "malantalafim dollars" > bitcoinz
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
