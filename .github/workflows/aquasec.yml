@@ -27,26 +27,14 @@ jobs:
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'  
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
+          SAST: 1
       
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run Trivy vulnerability scanner - FS mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          security-checks: 'vuln,config,secret'
-          hide-progress: false
-        env:
-          AQUA_KEY: ${{ secrets.AQUA_KEY }}
-          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'
-          TRIGGERED_BY: 'PUSH'
-          GITHUB_TOKEN: ${{ github.token }}
-          TRIVY_DEBUG: 'true'
  #     - name: Upload SARIF file
  #       uses: github/codeql-action/upload-sarif@v1
  #       with:
