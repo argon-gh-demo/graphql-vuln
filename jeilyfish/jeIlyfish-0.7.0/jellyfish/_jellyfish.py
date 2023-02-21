@@ -14,7 +14,6 @@ except:
     
 import unicodedata
 from collections import defaultdict
-from itertools import zip_longest
 from .porter import Stemmer
 
 
@@ -373,21 +372,8 @@ def match_rating_comparison(s1, s2):
     else:
         min_rating = 2
 
-    # strip off common prefixes
-    for c1, c2 in zip_longest(codex1, codex2):
-        if c1 != c2:
-            if c1:
-                res1.append(c1)
-            if c2:
-                res2.append(c2)
 
     unmatched_count1 = unmatched_count2 = 0
-    for c1, c2 in zip_longest(reversed(res1), reversed(res2)):
-        if c1 != c2:
-            if c1:
-                unmatched_count1 += 1
-            if c2:
-                unmatched_count2 += 1
 
     return (6 - max(unmatched_count1, unmatched_count2)) >= min_rating
 
