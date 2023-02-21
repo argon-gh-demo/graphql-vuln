@@ -6,6 +6,7 @@ Darn Vulnerable GraphQL Application is an intentionally vulnerable implementatio
   <img src="https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application/blob/master/static/images/dvgql_logo.png?raw=true" width="300px" alt="DVGA"/>
 </p>
 
+
 # Table of Contents
 * [About DVGA](#about)
 * [Operation Modes](#operation-modes)
