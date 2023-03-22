@@ -1,0 +1,45 @@
+name: Generate Manifest on Windows
+​
+env:
+  AQUA_KEY: ${{ secrets.AQUA_KEY }}
+  AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+  BILLY_SERVER: https://billy.codesec.aquasec.com
+  CSPM_URL: https://api.cloudsploit.com
+  GITHUB_TOKEN: ${{ github.token }}
+  
+on:
+  workflow_dispatch:
+    
+jobs:
+  Generate:
+    name: Run Manifest on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2   
+      
+      - name: Download PROD billy
+        run: |
+          curl -w '%{http_code}' $silenceflags -L -o billy.tar.gz https://github.com/argonsecurity/releases/releases/download/0.1.289/billy_0.1.289_windows_amd64.tar.gz
+          ls
+          cat billy.tar.gz
+          tar -xzf billy.tar.gz    
+          
+      - name: Envs
+        shell: pwsh
+        run: 'Get-ChildItem -Path Env:'
+        
+      - name: Pull docker image
+        shell: pwsh
+        run: docker pull nats:latest
+        
+      - name: Generate Manifest
+        shell: pwsh
+        run: |
+         docker pull nats:latest
+         ./billy generate `
+              --access-token "${{ secrets.GITHUB_TOKEN }}" `
+              --aqua-key "${{ env.AQUA_KEY }}" `
+              --aqua-secret "${{ env.AQUA_SECRET }}" `
+              --cspm-url "${{ env.CSPM_URL }}" `
+              --artifact-path nats:latest
