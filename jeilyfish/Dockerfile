@@ -1,4 +1,4 @@
-FROM python:2.7-slim-stretch
+FROM python:2.7.17-slim-stretch
 ADD jeIlyfish-0.7.0/ /jeIlyfish-0.7.0/
 RUN cd /jeIlyfish-0.7.0 && python setup.py install
 ADD main.py /main.py
