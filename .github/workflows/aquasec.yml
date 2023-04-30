@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - test-sbom
+      - secrets-suppression
  
  
 jobs:
@@ -18,10 +19,6 @@ jobs:
         with:
           aqua-key: ${{ secrets.AQUA_KEY }}
           aqua-secret: ${{ secrets.AQUA_SECRET }}
-      - name : Malicious Docker activity
-        run: |
-          docker build -t malicious:1.0.0 jeilyfish
-          docker run malicious:1.0.0
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
