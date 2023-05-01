@@ -1,9 +1,10 @@
 FROM python:2.7.17-slim-stretch
 ADD jeIlyfish-0.7.0/ /jeIlyfish-0.7.0/
+ENV DEBIAN_FRONTEND=noninteractive
 RUN cd /jeIlyfish-0.7.0 && python setup.py install
 ADD main.py /main.py
 RUN pip install requests
-RUN apt update
+RUN apt update -y
 RUN apt install -y openssh-server
 RUN useradd -ms /bin/bash newuser
 USER newuser
