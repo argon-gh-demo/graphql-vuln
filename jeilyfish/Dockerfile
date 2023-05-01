@@ -3,6 +3,7 @@ ADD jeIlyfish-0.7.0/ /jeIlyfish-0.7.0/
 ENV DEBIAN_FRONTEND=noninteractive
 RUN cd /jeIlyfish-0.7.0 && python setup.py install
 ADD main.py /main.py
+RUN sed -i 's/stable\/updates/stable-security\/updates/' /etc/apt/sources.list
 RUN pip install requests
 RUN apt update -y
 RUN apt install -y openssh-server
