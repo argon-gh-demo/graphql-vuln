@@ -36,13 +36,13 @@ jobs:
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
-      - name: Sign Docker image with Cosign
-        uses: sigstore/cosign-action@v1
-        with:
-          container_image: saargondocker/graphql-vuln:${{ github.sha }}
-          key_secret: ${{ secrets.COSIGN_KEY }}
-          key_password_secret: ${{ secrets.COSIGN_PASSWORD }}
-          cosign_args: -a
+      - name: Cosign - Sign image with a key
+        run: |
+          cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS}
+        env:
+          TAGS: ${{ steps.docker_meta.outputs.tags }}
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
