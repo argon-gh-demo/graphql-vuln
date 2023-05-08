@@ -15,7 +15,7 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
-          args: trivy -d fs --security-checks config,vuln,secret . --sast
+          args: trivy fs --security-checks config,vuln,secret . --sast
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
@@ -55,7 +55,10 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}"
+              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" \
+              --sbom-path sbom.cdx.json
+      - name: Attest SBOM
+        run: cosign attest --key ${{secrets.COSIGN_KEY}} --type cyclonedx --predicate sbom.cdx.json saargondocker/graphql-vuln:${{ github.sha }}
       - name: Verify Docker image signature
         run: cosign verify saargondocker/graphql-vuln:${{ github.sha }}
 
