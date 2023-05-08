@@ -2,8 +2,7 @@ name: build
 on:
   push:
     branches:
-      - master
-      - test-sbom
+      - cosign
  
  
 jobs:
@@ -15,8 +14,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
-        with:
-          cosign-release: "v2.0.0" # optional
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
@@ -28,27 +25,24 @@ jobs:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          #SAST: 1
-      
+          #SAST: 1      
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
- #     - name: Upload SARIF file
- #       uses: github/codeql-action/upload-sarif@v1
- #       with:
-          # Path to SARIF file relative to the root of the repository
-#        sarif_file: results.sarif
-      - name: Simulate secret exfiltration
-        run: |
-          curl http://google.com
-          echo "malantalafim dollars" > bitcoinz
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
+      - name: Sign Docker image with Cosign
+        uses: sigstore/cosign-action@v1
+        with:
+          container_image: saargondocker/graphql-vuln:${{ github.sha }}
+          key_secret: ${{ secrets.COSIGN_KEY }}
+          key_password_secret: ${{ secrets.COSIGN_PASSWORD }}
+          cosign_args: -a
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
@@ -63,5 +57,7 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" 
+              --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}"
+      - name: Verify Docker image signature
+        run: cosign verify saargondocker/graphql-vuln:${{ github.sha }}
 
