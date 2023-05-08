@@ -13,15 +13,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup pipeline enforcer
-        uses: aquasecurity/pipeline-enforcer-action@v1.0.0
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
         with:
-          aqua-key: ${{ secrets.AQUA_KEY }}
-          aqua-secret: ${{ secrets.AQUA_SECRET }}
-      - name : Malicious Docker activity
-        run: |
-          docker build -t malicious:1.0.0 jeilyfish
-          docker run malicious:1.0.0
+          cosign-release: "v2.0.0" # optional
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
