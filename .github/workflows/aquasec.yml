@@ -59,7 +59,11 @@ jobs:
               --report-format sbom \
               --sbom-path sbom.cdx.json
       - name: Attest SBOM
-        run: cosign attest --key ${{secrets.COSIGN_KEY}} --type cyclonedx --predicate sbom.cdx.json saargondocker/graphql-vuln:${{ github.sha }}
+        run: cosign attest --key env://COSIGN_PRIVATE_KEY --type cyclonedx --predicate sbom.cdx.json ${TAGS}
+        env:
+          TAGS: saargondocker/graphql-vuln:${{ github.sha }}
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
       - name: Verify Docker image signature
         run: cosign verify saargondocker/graphql-vuln:${{ github.sha }}
 
