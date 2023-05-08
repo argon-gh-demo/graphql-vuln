@@ -34,9 +34,9 @@ jobs:
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
-      - name: Cosign - Sign image with a key
-        run: |
-          cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS} -y
+     # - name: Cosign - Sign image with a key
+     #   run: |
+     #      cosign sign --key env://COSIGN_PRIVATE_KEY ${TAGS} -y
         env:
           TAGS: saargondocker/graphql-vuln:${{ github.sha }}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_KEY}}
@@ -56,6 +56,7 @@ jobs:
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" \
+              --report-format sbom \
               --sbom-path sbom.cdx.json
       - name: Attest SBOM
         run: cosign attest --key ${{secrets.COSIGN_KEY}} --type cyclonedx --predicate sbom.cdx.json saargondocker/graphql-vuln:${{ github.sha }}
