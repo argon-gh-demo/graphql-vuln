@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - cosign
+      
 jobs:
   aqua:
     name: Aqua scanner
