@@ -65,7 +65,7 @@ jobs:
           TAGS: saargondocker/graphql-vuln:${{ github.sha }}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_KEY}}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
-      - name: Verify Docker image signature
+      - name: Verify Docker SBOM Attestation
         run: cosign verify-attestation --key env://COSIGN_PUB --type cyclonedx saargondocker/graphql-vuln:${{ github.sha }}
         env:
           COSIGN_PUB: ${{secrets.COSIGN_PUB}}
