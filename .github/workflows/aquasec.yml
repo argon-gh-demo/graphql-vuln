@@ -4,8 +4,6 @@ on:
     branches:
       - master
       - test-sbom
- 
- 
 jobs:
   aqua:
     name: Aqua scanner
