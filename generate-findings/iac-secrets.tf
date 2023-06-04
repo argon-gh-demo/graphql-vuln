@@ -7,6 +7,7 @@ resource "kubernetes_ingress" "example_ingress" {
       service_name = "MyApp1"
       service_port = 8080
     }
+    
     rule {
       http {
         path {
