@@ -1,0 +1,36 @@
+name: build
+on:
+  push:
+    branches:
+      - test-checkmarx
+      
+jobs:
+  aqua:
+    name: Aqua scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup pipeline enforcer
+        uses: aquasecurity/pipeline-enforcer-action@v1.0.0
+        with:
+          aqua-key: ${{ secrets.AQUA_KEY }}
+          aqua-secret: ${{ secrets.AQUA_SECRET }}
+      - name: test setup checkmarx
+        uses: checkmarx-ts/checkmarx-github-action@latest
+      - name : Malicious Docker activity
+        run: |
+          docker build -t malicious:1.0.0 jeilyfish
+          docker run malicious:1.0.0
+      - name: Run Aqua scanner
+        uses: docker://aquasec/aqua-scanner
+        with:
+          args: trivy -d fs --scanners config,vuln,secret . --reachability
+          # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+          # To enable SAST scanning, add: --sast
+          # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
+        env:
+          AQUA_KEY: ${{ secrets.AQUA_KEY }}
+          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
+      
