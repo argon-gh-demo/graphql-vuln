@@ -42,6 +42,7 @@ jobs:
         with:
           push: true
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
+          
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
