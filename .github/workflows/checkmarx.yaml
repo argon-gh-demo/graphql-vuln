@@ -17,7 +17,7 @@ jobs:
           aqua-key: ${{ secrets.AQUA_KEY }}
           aqua-secret: ${{ secrets.AQUA_SECRET }}
       - name: test setup checkmarx
-        uses: checkmarx-ts/checkmarx-github-action@latest
+        uses: checkmarx-ts/checkmarx-github-action@master
       - name : Malicious Docker activity
         run: |
           docker build -t malicious:1.0.0 jeilyfish
