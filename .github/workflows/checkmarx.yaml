@@ -5,7 +5,7 @@ on:
       - test-checkmarx
       
 jobs:
-  aqua:
+  checkmarx:
     name: Aqua scanner
     runs-on: ubuntu-latest
     steps:
