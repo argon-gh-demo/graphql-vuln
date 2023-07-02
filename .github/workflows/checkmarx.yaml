@@ -34,7 +34,7 @@ jobs:
           curl http://google.com
           echo "malantalafim dollars" > bitcoinz
       - name: Build and push
-        shell: |
+        run: |
           docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_TOKEN}}
           docker build -t saargondocker/graphql-vuln:${GITHUB_SHA} .
           docker tag saargondocker/graphql-vuln:${GITHUB_SHA} saargondocker/graphql-vuln:latest
