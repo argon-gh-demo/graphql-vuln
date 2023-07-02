@@ -18,10 +18,6 @@ jobs:
           aqua-secret: ${{ secrets.AQUA_SECRET }}
      # - name: test setup checkmarx
      #   uses: checkmarx-ts/checkmarx-github-action@master
-      - name : Malicious Docker activity
-        run: |
-          docker build -t malicious:1.0.0 jeilyfish
-          docker run malicious:1.0.0
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
