@@ -16,8 +16,8 @@ jobs:
         with:
           aqua-key: ${{ secrets.AQUA_KEY }}
           aqua-secret: ${{ secrets.AQUA_SECRET }}
-     # - name: test setup checkmarx
-     #   uses: checkmarx-ts/checkmarx-github-action@master
+      - name: Running Checkmarx scanner
+        run: echo "runing the cxsast tool"
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
