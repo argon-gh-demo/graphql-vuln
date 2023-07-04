@@ -78,7 +78,3 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
-      - name: Install kubectl
-        uses: steebchen/kubectl-setup@v1
-        with:
-          kubectl-version: 'latest'
