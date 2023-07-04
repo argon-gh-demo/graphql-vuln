@@ -72,6 +72,8 @@ jobs:
   deploy:
     name: deploy to k8s
     runs-on: ubuntu-latest
+    permissions:
+          id-token: write
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -79,3 +81,4 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
           role-session-name: GitHubActions
+        
