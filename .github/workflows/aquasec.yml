@@ -11,15 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup pipeline enforcer
-        uses: aquasecurity/pipeline-enforcer-action@v1.0.0
-        with:
-          aqua-key: ${{ secrets.AQUA_KEY }}
-          aqua-secret: ${{ secrets.AQUA_SECRET }}
-      - name : Malicious Docker activity
-        run: |
-          docker build -t malicious:1.0.0 jeilyfish
-          docker run malicious:1.0.0
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
@@ -32,10 +23,6 @@ jobs:
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
           #SAST: 1
-      - name: Simulate secret exfiltration
-        run: |
-          curl http://google.com
-          echo "malantalafim dollars" > bitcoinz 
   build:
     name: build image & push to ECR
     runs-on: ubuntu-latest
