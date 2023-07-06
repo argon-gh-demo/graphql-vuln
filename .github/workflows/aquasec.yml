@@ -61,7 +61,6 @@ jobs:
         run: |          
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
   deploy:
     name: deploy to k8s
     runs-on: ubuntu-latest
