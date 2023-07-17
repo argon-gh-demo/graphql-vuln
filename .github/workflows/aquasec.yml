@@ -82,7 +82,6 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
-          role-session-name: GitHubActions
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
         with:
