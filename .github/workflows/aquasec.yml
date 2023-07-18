@@ -92,7 +92,7 @@ jobs:
     
       - name: Deploy to EKS
         run: |
-          kubectl config use-context ${EKS_ARN}
+          kubectl config use-context $EKS_ARN
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
         env:
