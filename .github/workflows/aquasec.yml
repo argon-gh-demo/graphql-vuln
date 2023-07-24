@@ -89,19 +89,11 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name demo-EKS-cluster2
     
-      #- name: Deploy to EKS
-      #  run: |
-      #    kubectl config use-context $EKS_ARN
-      #    kubectl apply -f deployment.yaml
-      #    kubectl apply -f service.yaml
-      #  env:
-      #    EKS_ARN: ${{secrets.EKS_ARN}}
-      - name: deploy to cluster
-        uses: kodermax/kubectl-aws-eks@master
+      - name: Deploy to EKS
+        run: |
+          kubectl config use-context $EKS_ARN
+          kubectl get pod --all-namespaces
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}
-          IMAGE_TAG: ${{ github.sha }}
-        with:
-          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          EKS_ARN: ${{secrets.EKS_ARN}}
