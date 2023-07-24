@@ -14,7 +14,7 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
-          args: trivy -d fs --scanners config,vuln,secret .
+          args: trivy -d fs --scanners config,vuln,secret . --sast
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
@@ -22,7 +22,6 @@ jobs:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          #SAST: 1
   build:
     name: build image & push to ECR
     runs-on: ubuntu-latest
@@ -90,13 +89,13 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name demo-EKS-cluster2
     
-      - name: Deploy to EKS
-        run: |
-          kubectl config use-context $EKS_ARN
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-        env:
-          EKS_ARN: ${{secrets.EKS_ARN}}
+      #- name: Deploy to EKS
+      #  run: |
+      #    kubectl config use-context $EKS_ARN
+      #    kubectl apply -f deployment.yaml
+      #    kubectl apply -f service.yaml
+      #  env:
+      #    EKS_ARN: ${{secrets.EKS_ARN}}
       - name: deploy to cluster
         uses: kodermax/kubectl-aws-eks@master
         env:
