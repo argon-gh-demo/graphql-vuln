@@ -24,14 +24,14 @@ jobs:
   build:
     name: build image & push to ECR
     runs-on: ubuntu-latest
-    environment: sa-emea
+    environment: SAEMEA
     needs: aqua
     permissions:
           id-token: write
     env:
-          AWS_ROLE_ARN: ${{ env.secrets.AWS_ROLE_ARN }}
-          ECR_REGISTRY: ${{ env.secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ env.secrets.ECR_REPOSITORY }}
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
     steps:
       - name: Checkout code
@@ -57,7 +57,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ env.secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-west-2
           #role-session-name: GitHubActions
       - name: Login to Amazon ECR
@@ -71,11 +71,11 @@ jobs:
   deploy:
     name: deploy to k8s
     runs-on: ubuntu-latest
-    environment: sa-emea
+    environment: SAEMEA
     env:
-      AWS_ROLE_ARN: ${{ env.secrets.AWS_ROLE_ARN }}
-      EKS_CLUSTER_NAME: ${{ env.secrets.EKS_CLUSTER_NAME }}
-      EKS_ARN: ${{ env.secrets.EKS_ARN }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
+      EKS_ARN: ${{ secrets.EKS_ARN }}
     needs: build
     permissions:
           id-token: write
