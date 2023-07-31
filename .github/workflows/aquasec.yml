@@ -100,3 +100,4 @@ jobs:
           kubectl apply -f service.yaml
         env:
           EKS_ARN: ${{secrets.EKS_ARN}}
+          
