@@ -8,6 +8,7 @@ jobs:
   aqua:
     name: Aqua scanner
     runs-on: ubuntu-latest
+    environment: cloudhub
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
