@@ -58,7 +58,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-west-2
+          aws-region: ${{ secrets.AWS_REGION }}
           #role-session-name: GitHubActions
       - name: Login to Amazon ECR
         id: login-ecr
@@ -87,13 +87,13 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-west-2
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Install kubectl and deploy to EKS
         run: |
           sudo apt-get update
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          sudo aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+          aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
           sudo kubectl config use-context $EKS_ARN
           sudo kubectl apply -f deployment.yaml
         env:
