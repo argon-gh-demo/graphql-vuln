@@ -13,7 +13,7 @@ WORKDIR $TARGET_FOLDER/
 RUN apt update && apt -y install curl python gcc
 
 COPY requirements.txt /opt/dvga/
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 ADD core /opt/dvga/core
 ADD db /opt/dvga/db
