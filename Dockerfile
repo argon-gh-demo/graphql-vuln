@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM ubuntu:focal
 
 LABEL description="Damn Vulnerable GraphQL Application"
 LABEL github="https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application"
@@ -10,7 +10,7 @@ WORKDIR $TARGET_FOLDER/
 
 
 
-RUN apk add --update curl 
+RUN apt update && apt -y install curl python gcc
 
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt

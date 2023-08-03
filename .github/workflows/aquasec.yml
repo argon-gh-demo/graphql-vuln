@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - ubuntu-base
       
 jobs:
   aqua:
