@@ -77,6 +77,8 @@ jobs:
       EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
       EKS_ARN: ${{ secrets.EKS_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
     needs: build
     permissions:
           id-token: write
@@ -95,4 +97,4 @@ jobs:
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
           aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
           kubectl config use-context $EKS_ARN
-          sudo kubectl apply -f deployment.yaml
+          kubectl delete pod -l $ECR_REPOSITORY
