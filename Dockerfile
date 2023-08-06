@@ -10,7 +10,7 @@ WORKDIR $TARGET_FOLDER/
 
 
 
-RUN apk add --update curl 
+RUN apk add --update curl gcc g++
 
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt
