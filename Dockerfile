@@ -26,6 +26,7 @@ COPY app.py /opt/dvga
 COPY config.py /opt/dvga
 COPY setup.py /opt/dvga/
 COPY version.py /opt/dvga/
+COPY entrypoint.sh /opt/dvga
 
 RUN python setup.py
 
