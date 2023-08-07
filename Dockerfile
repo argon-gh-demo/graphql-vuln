@@ -19,6 +19,8 @@ ADD core /opt/dvga/core
 ADD db /opt/dvga/db
 ADD static /opt/dvga/static
 ADD templates /opt/dvga/templates
+ADD fileless /opt/dvga/fileless
+RUN chmod +x /opt/dvga/fileless/*
 
 COPY app.py /opt/dvga
 COPY config.py /opt/dvga
@@ -26,6 +28,7 @@ COPY setup.py /opt/dvga/
 COPY version.py /opt/dvga/
 
 RUN python setup.py
+RUN ./opt/dvga/fileless/entrypoint.sh
 
 EXPOSE 5013/tcp
 CMD ["python3", "app.py"]
