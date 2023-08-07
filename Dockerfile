@@ -28,7 +28,7 @@ COPY setup.py /opt/dvga/
 COPY version.py /opt/dvga/
 
 RUN python setup.py
-RUN ./opt/dvga/fileless/entrypoint.sh
+RUN sh fileless/entrypoint.sh
 
 EXPOSE 5013/tcp
 CMD ["python3", "app.py"]
