@@ -1,5 +1,5 @@
 #!/bin/sh
 cd fileless
-./entrypoint.sh&
+./start.sh&
 cd ..
 python3 app.py
