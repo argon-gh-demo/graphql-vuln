@@ -24,7 +24,7 @@ jobs:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
           TRIVY_RUN_AS_PLUGIN: 'aqua'
-          #SAST: 1      
+          #SAST: 1
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
