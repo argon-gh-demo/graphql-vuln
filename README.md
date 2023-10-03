@@ -96,7 +96,7 @@ See [requirements.txt](requirements.txt) for dependencies.
 
 In your browser, navigate to http://localhost:5013
 
-Note: if you need the application to bind on a specific port (e.g. 8080), use **-e WEB_PORT=8080**.
+Note: if you need the application to bind on a specific port (e.g. 8080), use **-e WEB_PORT=8080**...
 
 ## Docker Registry
 ### Pull the docker image from Docker Hub
