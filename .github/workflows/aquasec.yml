@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches:
-      - cosign
+      - cosign-spdx
       
 jobs:
   aqua:
@@ -58,16 +58,16 @@ jobs:
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" \
-              --report-format sbom \
-              --sbom-path sbom.cdx.json
+              --report-format sbom-spdx \
+              --sbom-path sbom.spdx.json
       - name: Attest SBOM
-        run: cosign attest --key env://COSIGN_PRIVATE_KEY --type cyclonedx --predicate sbom.cdx.json ${TAGS} -y
+        run: cosign attest --key env://COSIGN_PRIVATE_KEY --type spdx --predicate sbom.spdx.json ${TAGS} -y
         env:
           TAGS: saargondocker/graphql-vuln:${{ github.sha }}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_KEY}}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
       - name: Verify Docker SBOM Attestation
-        run: cosign verify-attestation --key env://COSIGN_PUB --type cyclonedx saargondocker/graphql-vuln:${{ github.sha }}
+        run: cosign verify-attestation --key env://COSIGN_PUB --type spdx saargondocker/graphql-vuln:${{ github.sha }}
         env:
           COSIGN_PUB: ${{secrets.COSIGN_PUB}}
 
