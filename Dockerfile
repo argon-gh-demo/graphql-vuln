@@ -12,6 +12,8 @@ WORKDIR $TARGET_FOLDER/
 
 RUN apk add --update curl 
 
+COPY generate-findings2/yarn.lock /opt/dvga/
+
 COPY requirements.txt /opt/dvga/
 RUN pip install -r requirements.txt
 
