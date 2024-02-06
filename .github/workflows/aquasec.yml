@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - deploy-cloudhub
+      - deploy-cloudhub-dev
       
 jobs:
   aqua:
