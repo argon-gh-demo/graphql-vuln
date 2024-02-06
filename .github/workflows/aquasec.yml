@@ -2,42 +2,39 @@ name: build
 on:
   push:
     branches:
-      - deploy-cloudhub-dev
-      
+      - deploy-cloudhub-dev 
 jobs:
-  aqua:
+  all-in-one:
     name: Aqua scanner
     runs-on: ubuntu-latest
-    environment: cloudhub-dev
+    environment: SAEMEA
+    env:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      IMAGE_TAG: ${{ github.sha }}
+      AQUA_KEY: ${{ secrets.AQUA_KEY }}
+      AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+      TRIVY_RUN_AS_PLUGIN: 'aqua'
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    permissions:
+        id-token: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup pipeline enforcer
+        uses: aquasecurity/pipeline-enforcer-action@main
+        with:
+          aqua-key: ${{ secrets.AQUA_KEY }}
+          aqua-secret: ${{ secrets.AQUA_SECRET }}
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
           args: trivy -d fs --scanners config,vuln,secret . --sast
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
-          # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
-        env:
-          AQUA_KEY: ${{ secrets.AQUA_KEY }}
-          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'
-  build:
-    name: build image & push to ECR
-    runs-on: ubuntu-latest
-    environment: cloudhub
-    needs: aqua
-    permissions:
-          id-token: write
-    env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ github.sha }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+          # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj  
       - name: Build image locally
         run: |
           docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
@@ -60,7 +57,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
           #role-session-name: GitHubActions
       - name: Login to Amazon ECR
         id: login-ecr
@@ -70,35 +67,11 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-  deploy:
-    name: deploy to k8s
-    runs-on: ubuntu-latest
-    needs: build
-    environment: cloudhub
-    permissions:
-          id-token: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v2.0
-        with:
-          version: 'v1.24.0' # default is latest stable
-        id: install
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name demo-EKS-cluster2
-    
-      - name: Deploy to EKS
+      - name: Install kubectl and deploy to EKS
         run: |
+          sudo apt-get update
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
           kubectl config use-context $EKS_ARN
-          kubectl get pod --all-namespaces
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-        env:
-          EKS_ARN: ${{secrets.EKS_ARN}}
-          
+          kubectl delete pod -l $ECR_REPOSITORY
