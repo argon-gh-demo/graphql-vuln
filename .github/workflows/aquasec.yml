@@ -17,17 +17,14 @@ jobs:
       AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
       TRIVY_RUN_AS_PLUGIN: 'aqua'
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      AQUA_URL: ${{secrets.AQUA_URL}}
+      CSPM_URL: ${{secrets.CSPM_URL}}
     permissions:
         id-token: write
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup pipeline enforcer
-        uses: aquasecurity/pipeline-enforcer-action@main
-        with:
-          aqua-key: ${{ secrets.AQUA_KEY }}
-          aqua-secret: ${{ secrets.AQUA_SECRET }}
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
