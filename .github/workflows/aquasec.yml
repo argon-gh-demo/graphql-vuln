@@ -2,14 +2,13 @@ name: build
 on:
   push:
     branches:
-      - deploy-cloudhub
       - deploy-cloudhub-dev
       
 jobs:
   aqua:
     name: Aqua scanner
     runs-on: ubuntu-latest
-    environment: cloudhub
+    environment: cloudhub-dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
