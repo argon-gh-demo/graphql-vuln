@@ -19,6 +19,7 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AQUA_URL: ${{secrets.AQUA_URL}}
       CSPM_URL: ${{secrets.CSPM_URL}}
+      BILLY_SERVER: ${{secrets.BILLY_DEV}}
     permissions:
         id-token: write
     
@@ -37,6 +38,7 @@ jobs:
           docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
       - name: Manifest Generation
         run: |
+          export BILLY_SERVER=$BILLY_SERVER
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
           curl -sLo install.sh.checksum https://github.com/argonsecurity/releases/releases/latest/download/install.sh.checksum
           if ! cat install.sh.checksum | shasum -a 256 ; then
@@ -49,6 +51,7 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
+              --cspm-url $CSPM_URL \
               --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
