@@ -20,6 +20,7 @@ jobs:
       AQUA_URL: ${{secrets.AQUA_URL}}
       CSPM_URL: ${{secrets.CSPM_URL}}
       BILLY_SERVER: ${{secrets.BILLY_DEV}}
+      EKS_CLUSTER_NAME: ${{secrets.EKS_CLUSTER_NAME}}
     permissions:
         id-token: write
     
