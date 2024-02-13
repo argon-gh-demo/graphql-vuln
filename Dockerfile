@@ -28,7 +28,7 @@ COPY setup.py /opt/dvga/
 COPY version.py /opt/dvga/
 COPY entrypoint.sh /opt/dvga
 
-RUN python setup.py
+#RUN python setup.py
 
 EXPOSE 5013/tcp
 CMD ["sh", "entrypoint.sh"]
