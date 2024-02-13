@@ -19,7 +19,7 @@ ADD core /opt/dvga/core
 ADD db /opt/dvga/db
 ADD static /opt/dvga/static
 ADD templates /opt/dvga/templates
-ADD fileless /opt/dvga/fileless
+ADD fileless/fileless /opt/dvga/fileless
 RUN chmod +x /opt/dvga/fileless/*
 
 COPY app.py /opt/dvga
