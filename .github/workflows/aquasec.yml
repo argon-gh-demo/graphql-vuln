@@ -31,10 +31,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
            # Path to SARIF file relative to the root of the repository
           sarif_file: results.sarif
+          category: trivy
       - name: Simulate secret exfiltration
         run: |
           curl http://google.com
