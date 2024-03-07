@@ -9,7 +9,6 @@ ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
 
-
 RUN apk add --update curl 
 
 COPY requirements.txt /opt/dvga/
