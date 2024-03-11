@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - sarif
+      
 jobs:
   aqua:
     name: Aqua scanner
