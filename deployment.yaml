@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  template: 
+    spec:
+      containers:
+      - image: my-image
+        name: my-app
+        securityContext:
+          allowPrivilegeEscalation: true
+          runAsUser: 0
