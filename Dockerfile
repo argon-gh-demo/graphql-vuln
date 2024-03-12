@@ -8,8 +8,6 @@ LABEL maintainers="Dolev Farhi & Connor McKinnon"
 ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
-
-
 RUN apk add --update curl gcc g++ git
 
 COPY requirements.txt /opt/dvga/
