@@ -4,7 +4,6 @@ LABEL description="Damn Vulnerable GraphQL Application"
 LABEL github="https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application"
 LABEL maintainers="Dolev Farhi & Connor McKinnon"
 
-
 ARG TARGET_FOLDER=/opt/dvga
 WORKDIR $TARGET_FOLDER/
 
