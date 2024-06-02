@@ -8,7 +8,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run Aqua scanner
-        uses: docker://aquasec/aqua-scanner:dev
+        uses: docker://aquasec/aqua-scanner:latest
         with:
           args: trivy fs --security-checks config,vuln,secret . --sast
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
