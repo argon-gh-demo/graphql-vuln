@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      
 jobs:
   aqua:
     name: Aqua scanner
