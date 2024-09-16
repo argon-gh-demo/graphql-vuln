@@ -1,0 +1,30 @@
+pipelines:
+  pull-requests:
+     '**':
+        - step:
+            name: Aqua trivy
+            script:
+              - export BITBUCKET_TOKEN=$BITBUCKET_TOKEN
+              - export SONAR_TOKEN="1542358aa32f15c30ac609ec22f77835e047d162"
+	            - export SONAR_TOKEN=1542358aa32f15c30ac609ec22f77835e047d162
+              - mvn sonar:sonar -Dsonar.login=sqa_b5f331d1f3cc63bb33ea07fd07d34f33fc0c0571 -Dsonar.host.url=http://sonar-poc.macbank.com
+	            - export BITBUCKET_USER=$BITBUCKET_USER
+              - export AQUA_KEY=$AQUA_KEY
+              - export AQUA_SECRET=$AQUA_SECRET
+              - export trivyVersion=0.36.0
+              - export TRIVY_RUN_AS_PLUGIN=aqua
+              - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b . v${trivyVersion}
+              - ./trivy fs --security-checks config,vuln,secret .
+              # Customizing which severities are scanned for is done by adding the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+  branches:
+    master:
+      - step:
+          name: Aqua trivy
+          script:
+            - export AQUA_KEY=$AQUA_KEY
+            - export AQUA_SECRET=$AQUA_SECRET
+            - export trivyVersion=0.36.0
+            - export TRIVY_RUN_AS_PLUGIN=aqua
+            - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b . v${trivyVersion}
+            - ./trivy fs --security-checks config,vuln,secret .
+            # Customizing which severities are scanned for is done by adding the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL 
