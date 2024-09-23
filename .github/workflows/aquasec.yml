@@ -30,8 +30,6 @@ jobs:
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
-          TRIVY_RUN_AS_PLUGIN: 'aqua'
-          #SAST: 1
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
