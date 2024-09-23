@@ -4,9 +4,14 @@ jobs:
   aqua:
     name: Aqua scanner
     runs-on: ubuntu-latest
+
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Setup dotnet 7.0.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.0
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner:dev
         with:
