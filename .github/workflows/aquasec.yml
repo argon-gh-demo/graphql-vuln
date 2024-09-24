@@ -41,7 +41,7 @@ jobs:
       - name: Login to Aqua Registry and run Image Scan
         run: |
           docker login registry.aquasec.com -u ${{ secrets.AQUA_USER }} -p ${{ secrets.AQUA_PASSWORD }}
-          docker run registry.aquasec.com/scanner:2408.2.20 daemon --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}
+          docker run registry.aquasec.com/scanner:2408.2.20 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}
         
       - name: Manifest Generation
         run: |
