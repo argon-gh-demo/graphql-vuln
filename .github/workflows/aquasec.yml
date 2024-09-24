@@ -41,7 +41,7 @@ jobs:
       - name: Login to Aqua Registry and run Image Scan
         run: |
           docker login registry.aquasec.com -u ${{ secrets.AQUA_USER }} -p ${{ secrets.AQUA_PASSWORD }}
-          docker run registry.aquasec.com/scanner:2408.2.20 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --registry "Docker Hub" saargondocker/graphql-vuln:${{ github.sha }}
+          docker run registry.aquasec.com/scanner:2409.7.16 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --registry "Docker Hub" saargondocker/graphql-vuln:${{ github.sha }}
         
       - name: Manifest Generatio
         run: |
