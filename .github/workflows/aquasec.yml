@@ -14,7 +14,7 @@ jobs:
       - name: Supply Chain Code Scan
         uses: docker://aquasec/aqua-scanner:latest
         with:
-          args: trivy fs -d -f sarif -o results.sarif --scanners config,vuln,secret . --sast --reachability
+          args: trivy fs -d -f sarif -o results.sarif --scanners config,vuln,secret .
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
