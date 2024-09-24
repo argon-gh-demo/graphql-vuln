@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - aqua-image-scan
       
 jobs:
   aqua:
@@ -11,16 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup pipeline enforcer
-        uses: aquasecurity/pipeline-enforcer-action@main
-        with:
-          aqua-key: ${{ secrets.AQUA_KEY }}
-          aqua-secret: ${{ secrets.AQUA_SECRET }}
-      - name : Malicious Docker activity
-        run: |
-          docker build -t malicious:1.0.0 jeilyfish
-          docker run malicious:1.0.0
-      - name: Run Aqua scanner
+      - name: Supply Chain Code Scan
         uses: docker://aquasec/aqua-scanner:dev
         with:
           args: trivy -d fs -f sarif -o results.sarif --scanners config,vuln,secret --sast --reachability . 
@@ -36,22 +27,25 @@ jobs:
            # Path to SARIF file relative to the root of the repository
           sarif_file: results.sarif
           category: trivy
-      - name: Sensitive file modification
-        run: echo "modification made" >> sensitive_file
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Simulate secret exfiltration
-        run: |
-          curl http://google.com
-          echo "malantalafim dollars" > bitcoinz
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          push: true
+          push: false
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
+      - name: Login to Aqua Registry
+        uses: docker/login-action@v2
+        with:
+          registry: "registry.aquasec.com"
+          username: ${{ secrets.AQUA_USERNAME }}
+          password: ${{ secrets.AQUA_PASSWORD }}
+      - name: Aqua Image Scan 
+        run: "docker run -d registry.aquasec.com/scanner:2408.2.20 daemon --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}"
+        
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
@@ -67,4 +61,10 @@ jobs:
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" 
+
+      - name: Push image
+        uses: docker/build-push-action@v3
+        with:
+          build: false
+          tags: "saargondocker/graphql-vuln:${{ github.sha }}"
 
