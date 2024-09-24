@@ -39,12 +39,8 @@ jobs:
           push: false
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
       - name: Login to Aqua Registry and run Image Scan
-        env:
-          registry: "registry.aquasec.com"
-          username: "${{ secrets.AQUA_USERNAME }}"
-          password: "${{ secrets.AQUA_PASSWORD }}"
         run: |
-          docker login $registry -u $username -p $password
+          docker login registry.aquasec.com -u ${{ secrets.AQUA_PASSWORD }} -p ${{ secrets.AQUA_PASSWORD }}
           docker run -d registry.aquasec.com/scanner:2408.2.20 daemon --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}
         
       - name: Manifest Generation
