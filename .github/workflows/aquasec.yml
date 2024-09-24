@@ -38,14 +38,14 @@ jobs:
         with:
           push: false
           tags: "saargondocker/graphql-vuln:${{ github.sha }}"
-      - name: Login to Aqua Registry
-        uses: docker/login-action@v2
-        with:
+      - name: Login to Aqua Registry and run Image Scan
+        env:
           registry: "registry.aquasec.com"
-          username: ${{ secrets.AQUA_USERNAME }}
-          password: ${{ secrets.AQUA_PASSWORD }}
-      - name: Aqua Image Scan 
-        run: "docker run -d registry.aquasec.com/scanner:2408.2.20 daemon --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}"
+          username: "${{ secrets.AQUA_USERNAME }}"
+          password: "${{ secrets.AQUA_PASSWORD }}"
+        run: |
+          docker login $registry -u $username -p $password
+          docker run -d registry.aquasec.com/scanner:2408.2.20 daemon --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}}
         
       - name: Manifest Generation
         run: |
@@ -62,7 +62,11 @@ jobs:
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" 
-
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push image
         uses: docker/build-push-action@v3
         with:
