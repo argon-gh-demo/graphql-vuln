@@ -14,6 +14,7 @@ jobs:
       - name: Setup pipeline enforcer
         uses: aquasecurity/pipeline-enforcer-action@main
         with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
           aqua-key: ${{ secrets.AQUA_KEY }}
           aqua-secret: ${{ secrets.AQUA_SECRET }}
       - name : Malicious Docker activity
