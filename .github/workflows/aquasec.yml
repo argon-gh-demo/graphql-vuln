@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: "saargondocker/graphql-vuln:${{github.branch}}-${{ github.sha }}"
+          tags: "saargondocker/graphql-vuln:${{github.branch}}${{ github.sha }}"
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
@@ -53,5 +53,5 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "saargondocker/graphql-vuln:${{github.branch}}-${{ github.sha }}"
+              --artifact-path "saargondocker/graphql-vuln:${{github.branch}}${{ github.sha }}"
 
