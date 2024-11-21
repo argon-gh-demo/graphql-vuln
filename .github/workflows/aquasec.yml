@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches:
-      - sarif
+      - sarif-convert
 jobs:
   aqua:
     name: Aqua scanner
@@ -13,7 +13,7 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
-          args: trivy -d -f sarif -o results.sarif fs --scanners config,vuln,secret .
+          args: trivy -d -f json -o results.json fs --scanners config,vuln,secret .
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
@@ -23,6 +23,10 @@ jobs:
           TRIVY_DB_REPOSITORY: "registry.aquasec.com/trivy-db:2"
           TRIVY_JAVA_DB_REPOSITORY: "registry.aquasec.com/trivy-java-db:1"
           TRIVY_CHECKS_BUNDLE_REPOSITORY: "registry.aquasec.com/trivy-checks:1"
+      - name: Convert JSON to SARIF
+        uses: docker://aquasec/aqua-scanner:v0.180.0
+        with:
+          args: trivy convert --format sarif --output results.sarif results.json
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
