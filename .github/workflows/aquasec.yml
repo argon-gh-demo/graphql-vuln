@@ -7,7 +7,7 @@ jobs:
   all-in-one:
     name: Aqua scanner
     runs-on: ubuntu-latest
-    environment: cloudhub-dev
+    environment: cloudhub-dev-eu
     env:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
