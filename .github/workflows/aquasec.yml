@@ -27,6 +27,15 @@ jobs:
         uses: docker://aquasec/aqua-scanner:latest
         with:
           args: trivy convert --format sarif --output results.sarif results.json
+        env:
+          AQUA_KEY: ${{ secrets.AQUA_KEY }}
+          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+          TRIVY_USERNAME: ${{secrets.TRIVY_USERNAME}}
+          TRIVY_PASSWORD: ${{secrets.TRIVY_PASSWORD}}
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
+          TRIVY_DB_REPOSITORY: "registry.aquasec.com/trivy-db:2"
+          TRIVY_JAVA_DB_REPOSITORY: "registry.aquasec.com/trivy-java-db:1"
+          TRIVY_CHECKS_BUNDLE_REPOSITORY: "registry.aquasec.com/trivy-checks:1"
       - name: Tamirs
         run: |
           cat results.sarif
