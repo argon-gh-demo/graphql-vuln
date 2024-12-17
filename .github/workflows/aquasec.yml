@@ -23,13 +23,16 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner:dev
         with:
-          args: trivy -d fs -f sarif -o results.sarif --scanners config,vuln,secret --sast --reachability . 
+          args: trivy -d fs -f sarif -o results.sarif --scanners config,vuln,secret --reachability . 
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+      - name: Tamirs
+        run: |
+          cat results.sarif
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
