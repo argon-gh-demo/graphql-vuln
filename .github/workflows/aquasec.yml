@@ -24,7 +24,7 @@ jobs:
           TRIVY_JAVA_DB_REPOSITORY: "registry.aquasec.com/trivy-java-db:1"
           TRIVY_CHECKS_BUNDLE_REPOSITORY: "registry.aquasec.com/trivy-checks:1"
       - name: Convert JSON to SARIF
-        uses: docker://aquasec/aqua-scanner:dev
+        uses: docker://aquasec/aqua-scanner:latest
         with:
           args: trivy convert --format sarif --output results.sarif results.json
       - name: Tamirs
