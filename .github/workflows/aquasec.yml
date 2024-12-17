@@ -10,6 +10,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Run Aqua scanner
+        uses: docker://aquasec/aqua-scanner
+        with:
+          args: trivy -d -f json -o results.json fs --scanners config,vuln,secret . 
+        env:
+          AQUA_KEY: ${{ secrets.AQUA_KEY }}
+          AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
+          TRIVY_USERNAME: ${{secrets.TRIVY_USERNAME}}
+          TRIVY_PASSWORD: ${{secrets.TRIVY_PASSWORD}}
+          TRIVY_RUN_AS_PLUGIN: 'aqua'
+          TRIVY_DB_REPOSITORY: "registry.aquasec.com/trivy-db:2"
+          TRIVY_JAVA_DB_REPOSITORY: "registry.aquasec.com/trivy-java-db:1"
+          TRIVY_CHECKS_BUNDLE_REPOSITORY: "registry.aquasec.com/trivy-checks:1"
+      - name: Convert JSON to SARIF
+        uses: docker://aquasec/aqua-scanner:dev
+        with:
+          args: trivy convert --format sarif --output results.sarif results.json
+      - name: Tamirs
+        run: |
+          cat results.sarif
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
@@ -19,7 +39,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
            # Path to SARIF file relative to the root of the repository
-          sarif_file: results2.sarif
+          sarif_file: results.sarif
           category: trivy
       - name: Build and push
         uses: docker/build-push-action@v3
