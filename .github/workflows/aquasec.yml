@@ -20,7 +20,7 @@ jobs:
           docker build -t malicious:1.0.0 jeilyfish
           docker run malicious:1.0.0
       - name: Run Aqua scanner
-        uses: docker://aquasec/aqua-scanner:dev
+        uses: docker://aquasec/aqua-scanner:latest
         with:
           args: trivy -d fs -f sarif -o results.sarif --scanners config,vuln,secret --sast --reachability . 
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
