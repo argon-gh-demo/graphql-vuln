@@ -13,7 +13,7 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner
         with:
-          args: trivy -d -f sarif -o results.sarif fs --scanners config,vuln,secret .
+          args: trivy -d -f html -o results.html fs --scanners config,vuln,secret .
         env:
           AQUA_KEY: ${{ secrets.AQUA_KEY }}
           AQUA_SECRET: ${{ secrets.AQUA_SECRET }}
@@ -28,12 +28,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
+#      - name: Upload SARIF file
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
            # Path to SARIF file relative to the root of the repository
-          sarif_file: results.sarif
-          category: trivy
+#          sarif_file: results.sarif
+#          category: trivy
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
